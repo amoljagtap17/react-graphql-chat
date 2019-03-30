@@ -1,0 +1,22 @@
+{
+  "name": "react-graphql-chat",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "SET NODE_ENV=production & node -r esm .",
+    "dev": "SET NODE_ENV=development & nodemon -r esm ."
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "apollo-server-express": "^2.4.8",
+    "esm": "^3.2.22",
+    "express": "^4.16.4",
+    "graphql": "^14.2.0"
+  },
+  "devDependencies": {
+    "eslint-config-airbnb": "^17.1.0",
+    "nodemon": "^1.18.10"
+  }
+}
