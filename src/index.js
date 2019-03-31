@@ -39,7 +39,12 @@ import { APP_PORT, IN_PROD, DB_URI, SESS_NAME, SESS_SECRET, SESS_LIFETIME, REDIS
     const server = new ApolloServer({
       typeDefs,
       resolvers,
-      playground: !IN_PROD,
+      cors: false,
+      playground: IN_PROD ? false : {
+        settings: {
+          'request.credentials': 'include'
+        }
+      },
       context: ({ req, res }) => ({ req, res })
     })
 

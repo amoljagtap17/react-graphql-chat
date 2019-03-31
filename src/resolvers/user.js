@@ -33,15 +33,19 @@ export default {
     }
   },
   Mutation: {
-    signUp: async (root, args, context, info) => {
+    signUp: async (root, args, { req }, info) => {
       // TODO: not auth
 
-      Auth.checkSignedOut()
+      Auth.checkSignedOut(req)
 
       // validation
       await Joi.validate(args, signUp, { abortEarly: false })
 
-      return User.create(args)
+      const user = await User.create(args)
+
+      req.session.userId = user.id
+
+      return user
     },
     signIn: async (root, args, { req }, info) => {
       const { userId } = req.session
@@ -53,14 +57,17 @@ export default {
       await Joi.validate(args, signIn, { abortEarly: false })
 
       const { email, password } = args
-      const user = await User.findOne({ email })
 
-      Auth.attemptSignIn(email, password)
+      const user = await Auth.attemptSignIn(email, password)
+
+      req.session.userId = user.id
 
       return user
     },
-    signOut: (root, args, { req }, info) => {
+    signOut: (root, args, { req, res }, info) => {
+      Auth.checkSignedIn(req)
 
+      return Auth.signOut(req, res)
     }
   }
 }
